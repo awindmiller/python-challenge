@@ -3,67 +3,74 @@ import csv
 import os
 import numpy
 
-filename = "HW3/Budget_Data.csv"
+ReadFile = pd.read_csv("election_data.csv")
 
-ReadFile = pd.read_csv("Budget_Data.csv")
+TotalVotes = ReadFile["Voter ID"].count()
+Khan = 0
+Correy = 0 
+Li = 0
+OTooley = 0
 
-TotalMonths  = ReadFile["Profit/Losses"].count()
-TotalRevenueChange = 0
-PrevRevenue = 0
-RevIncrease = 0
-SumMonths = ReadFile.groupby(['Profit/Losses']).sum()
-Total = ReadFile["Profit/Losses"].sum()
-PL= ReadFile["Profit/Losses"]
-Max = ReadFile["Profit/Losses"].max()
-Min = ReadFile["Profit/Losses"].min()
+f = open("C:/Users/awind/Documents/DataHWs/HW3/PyPollTxt.txt", "w+")
 
-RevenuesList = []
-for row in PL:
-	RevIncrease = int(PL[0]) - PrevRevenue
-	TotalRevenueChange = TotalRevenueChange + RevIncrease
-	PrevRevenue = int(PL[0])
-	#RevenuesList = RevenuesList.insert(0, RevIncrease)
-
-Average = TotalRevenueChange/TotalMonths
-#print (TotalRevenueChange)
-#print(RevIncrease)
-#print(Average)
-
-#print (RevenuesList)
-
-#print(TotalRevenueChange)
+for row in ReadFile["Candidate"]:
+	if row == "Khan":
+		Khan = Khan + 1
+	elif row == "Correy":
+		Correy = Correy + 1
+	elif row == "Li":
+		Li = Li + 1
+	else:
+		OTooley = OTooley + 1
 
 
-def content():
-	print("Financial Analysis")
-	print("----------------------------")
-	print("Total Months: " + str(TotalMonths))
-	print("Total: " + str(Total))
-	print("Average Change: " + str(Average))
-	print("Greatest increase in profits: " + str(Max))
-	print("Greatest decrease in profits: " + str(Min))
+KhanPercent = (Khan / TotalVotes)*100
+CorreyPercent = (Correy / TotalVotes)*100
+LiPercent = (Li / TotalVotes)*100
+OTooleyPercent = (OTooley / TotalVotes)*100
+print("Election Results")
+print("-------------------------")
+print("Total Votes: "+ str(TotalVotes))
+print("-------------------------")
+print("Khan: " + str(int(KhanPercent)) + "% " + str(Khan) + " Votes")
+print("Correy: " + str(int(CorreyPercent))+"% " + str(Correy) + " Votes")
+print ("Li: " + str(int(LiPercent))+"% " + str(Li) + " Votes")
+print("O'Tooley: " +str(int(OTooleyPercent)) + "% " + str(OTooley) + " Votes")
+print("-------------------------")
+f.write("Election Results\n")
+f.write("-------------------------\n")
+f.write("Total Votes: "+ str(TotalVotes)+ "\n")
+f.write("-------------------------\n")
+f.write("Khan: " + str(int(KhanPercent)) + "% " + str(Khan) + " Votes\n")
+f.write("Correy: " + str(int(CorreyPercent))+"% " + str(Correy) + " Votes\n")
+f.write("Li: " + str(int(LiPercent))+"% " + str(Li) + " Votes\n")
+f.write("O'Tooley: " +str(int(OTooleyPercent)) + "% " + str(OTooley) + " Votes\n")
+CandidateList = [KhanPercent, CorreyPercent , LiPercent, OTooleyPercent]
+if max(CandidateList) == KhanPercent:
+	print("Winner: Khan")
+	f.write("Winner: Khan\n")
+elif max(CandidateList) == CorreyPercent:
+	print("Winner: Correy")
+	f.write("Winner: Correy\n")
+elif max(CandidateList) == LiPercent:
+	print("Winner: Li")
+	f.write("Winner: Li\n")
+elif max(CandidateList) == OTooleyPercent:
+	print("Winner: O'Tooley")
+	f.write("Winner: O'Tooley\n")
+print("-------------------------")
+f.write("-------------------------\n")
 
-content()
-
-#for row in PL:
-	#RevIncrease = int(row[1]) - PrevRevenue
-	#TotalRevenueChange = TotalRevenueChange + RevIncrease
-	#PrevRevenue = int(row[1])
-
-#print(TotalRevenueChange)
-
-#print(Total)
-#print (SumMonths)
 
 
+# f.write("Election Results\n")
+# f.write("-------------------------\n")
+# f.write("Total Votes: "+ str(TotalVotes)+ "\n")
+# f.write("-------------------------\n")
+# f.write("Khan: " + str(int(KhanPercent)) + "% " + str(Khan) + " Votes\n")
+# f.write("Correy: " + str(int(CorreyPercent))+"% " + str(Correy) + " Votes\n")
+# f.write("Li: " + str(int(LiPercent))+"% " + str(Li) + " Votes\n")
+# f.write("O'Tooley: " +str(int(OTooleyPercent)) + "% " + str(OTooley) + " Votes\n")
 
 
-#print(SumMonths)
-
-#MonthCount = sum(1 for row in ReadFile)
-
-#print(MonthCount)
-#for row in ReadFile:
-#	Counter = Counter + 1
-#print(Counter)
-
+f.close()
